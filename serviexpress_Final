@@ -1,0 +1,166 @@
+import time
+import os
+os.system("cls")
+lista_vehiculos = []
+flag = True
+##################################
+def formatoFechaCorrecto(fecha):
+    try:
+        date = time.strptime(fecha, '%d-%m-%Y')
+        return True
+    except:
+        return False
+##################################
+def menu():
+    print("         *** Menú ServiExpress ***           ")
+    print()
+    print("1. Registrar automóvil")
+    print("2. Registro Mantenimiento")
+    print("3. Consultar Automóvil")
+    print("4. Salir") 
+##################################        
+def validapatente(patente):
+    flag_patente = False
+    try:
+        if (len(patente) == 6 ):
+            if (patente[0:2].isalpha() and patente[2:6].isdigit()):
+                flag_patente = True                             
+            elif patente[0:4].isalpha() and patente[4:6].isdigit():
+                flag_patente = True 
+            else:
+                print("Ingrese una patente correcta")
+        else:
+                print("Longitud incorrecta de la patente Ej AA1000 0 BBBB10: ")
+    except:
+        print("El Numero de patente, es invalido.")
+##################################   
+while flag == True:
+    menu()
+    try:
+        opcion = int(input("Ingrese opción: "))
+
+        if opcion == 1:
+            #Valida Patente            
+            while flag_patente == False:
+                patente = input("Ingrese Numero de Patente Ej AA1000 0 BBBB10: ").upper()
+                validapatente(patente)
+            #Valida Marca
+            flag_marca = False
+            while flag_marca == False:
+                try:
+                    marca  = input("Ingrese marca, Ej Renault : ")
+                    if marca.isalnum and marca !="":
+                        flag_marca = True
+                except:
+                    print("La marca del Vehiculo no puede ser Vacio. Ej Renault : ")
+            #Valida Modelo
+            flag_modelo = False
+            while flag_modelo == False:
+                try:    
+                    modelo  = input("Ingrese el modelo, Ej Symbol : ")
+                    if modelo.isalnum and modelo != "":
+                        flag_modelo = True
+                except:
+                    print("El modelo del vehiculo no puede ser Vacio, Ej Symbol : ")
+            #Valida Año Fabricacion                    
+            flag_anio_fabricacion = False
+            while flag_anio_fabricacion == False:
+                try:
+                    anio_fabricacion = int(input("Ingrese el año de Fabricacion Ej: desde 1900 a año actual 2022: "))                    
+                    if anio_fabricacion >= 1900 and anio_fabricacion <= 2022:
+                        flag_anio_fabricacion = True
+                    else:
+                        print("El año de Fabricacion  Ej: desde 1900 a año actual 2022: ")              
+                except:
+                    print("El año de fabricacion debe ser numérico, Ej: desde 1900 a año actual 2022: ")
+            #Valida Tipo Combustible del Vehiculo
+            flag_tipo_vehiculo = False
+            while flag_tipo_vehiculo == False:
+                try:
+                    tipo_vehiculo = input("Ingrese Tipo de Combustible del Vehiculo, debe ser un caracter y sólo acepta las letras: d/b/e/h (bencina, diesel, eléctrico, híbrido) : ")
+                    if (tipo_vehiculo.lower() == "d"  or tipo_vehiculo.lower() == "b" or tipo_vehiculo.lower() == "e" or tipo_vehiculo.lower() == "h"):
+                        flag_tipo_vehiculo = True
+                    else:
+                        print("Tipo de combustible del vehículo, debe ser un carácter y sólo acepta las letras: d/b/e/h (bencina, diesel, eléctrico, híbrido) ")
+                except:
+                    print("Tipo vehiculo invalido.")
+
+            lista_vehiculos.append([patente, marca, modelo, anio_fabricacion, tipo_vehiculo, []])
+            os.system("cls")
+        elif opcion == 2:
+            os.system("cls")
+            #Valida Patente            
+            flag_patente = False
+            while flag_patente == False:
+                try:
+                    consulta_patente = input("Ingrese el Numero de patente del vehiculo Ej AA1000 0 BBBB10: ").upper()
+                    if (len(consulta_patente) == 6 ):
+                            if (consulta_patente[0:2].isalpha() and consulta_patente[2:6].isdigit()):
+                                flag_patente = True                             
+                            elif consulta_patente[0:4].isalpha() and consulta_patente[4:6].isdigit():
+                                flag_patente = True
+                            else:
+                                print("La patente es Ej AA1000 0 BBBB10: ")
+                    else:
+                        print("Longitud incorrecta de la patente Ej AA1000 0 BBBB10: ")
+                    for l in lista_vehiculos:
+                        if l[0] == consulta_patente:
+                            flag_fecha = False
+                            while flag_fecha == False:
+                                try:
+                                    fecha = input("Ingrese la fecha de atención, Ej DD-MM-AAAA: ")
+                                    if (formatoFechaCorrecto(fecha) == True):
+                                        flag_fecha = True
+                                except:
+                                    print("Incorrecto el formato de la fecha, Ej DD-MM-AAAA")
+                            flag_observacion = False
+                            while flag_observacion == False:
+                                try:
+                                    observacion = input("Ingrese las observaciones de la consulta: ")
+                                    if observacion.isalnum and observacion !="":
+                                        flag_observacion = True
+                                except:
+                                    print("las observacion ingresada es vacia.")
+                            l[5].append([fecha, observacion])
+                            print("La consulta fue ingresada correctamente.")
+                            break                    
+                except:
+                    print("La Patente del Vehiculo es invalida.")
+        elif opcion == 3:
+            os.system("cls")
+            #Valida Patente            
+            flag_patente = False
+            while flag_patente == False:
+                try:
+                    consulta_patente = input("Ingrese el Numero de la patente del vehiculo Ej AA1000 0 BBBB10: ").upper()
+                    if (len(consulta_patente) == 6 ):
+                            if (consulta_patente[0:2].isalpha() and consulta_patente[2:6].isdigit()):
+                                flag_patente = True                             
+                            elif consulta_patente[0:4].isalpha() and consulta_patente[4:6].isdigit():
+                                flag_patente = True 
+                            else:
+                                print("Ingrese una patente correcta")
+                    else:
+                        print("Longitud incorrecta de la patente Ej AA1000 0 BBBB10: ")
+                    for l in lista_vehiculos:
+                        if l[0] == consulta_patente:
+                            print("Datos del vehiculo")
+                            print("Patente: ",l[0])
+                            print("Marca: ",l[1])
+                            print("Modelo: ",l[2])
+                            print("Año: ",l[3])
+                            print("tipo Combustible: ",l[4])
+                            print("Registros: ")
+                            for x in l[5]:
+                                print("fecha: ",x[0]," observacion :",x[1])
+                            break                        
+                except:
+                    print("El Numero de patente, No esta registrada, Revise...")
+        elif opcion == 4:
+            print("Salir del sistema")
+            flag = False
+            os.system("cls")
+        else:
+            print("Opción no válida")
+    except:
+        print("La opción ingresada no corresponde.")
